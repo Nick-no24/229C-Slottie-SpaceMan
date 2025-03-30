@@ -351,7 +351,7 @@ Canvas:
   m_GameObject: {fileID: 17576913}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -53929,7 +53929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1775697209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69066,6 +69066,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: {fileID: 1892938696}
+  v: {fileID: 0}
+  warp: {fileID: 0}
+  pickup: {fileID: 0}
 --- !u!1001 &7546825811998866154
 PrefabInstance:
   m_ObjectHideFlags: 0
