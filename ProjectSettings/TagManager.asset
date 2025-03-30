@@ -12,6 +12,7 @@ TagManager:
   - Ground
   - Meteor
   - Missile
+  - Box
   layers:
   - Default
   - TransparentFX
