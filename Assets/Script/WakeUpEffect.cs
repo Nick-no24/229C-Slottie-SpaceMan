@@ -5,21 +5,25 @@ using System.Threading.Tasks;
 
 public class WakeUpEffect : MonoBehaviour
 {
-    public Image wakeUpImage; // ใส่ Image สีดำ
+    public Image wakeUpImage; 
     private Color fadeColor;
     public GameObject Dialogue;
     public AudioSource begin;
     public AudioClip Alarm;
+    public CharacterController playerController;
     async void Start()
     {
-        if (!Application.isPlaying) return; // กันไม่ให้รันตอนอยู่ใน Scene Editor
-
+        
+        
+        playerController.enabled = false;
         fadeColor = wakeUpImage.color;
         fadeColor.a = 1f;
         wakeUpImage.color = fadeColor;
+        begin.volume = 0.2f;
         begin.PlayOneShot(Alarm);
         await Task.Delay(3000);
         StartCoroutine(BlinkEffect());
+        playerController.enabled = true;    
         await Task.Delay(2000);
         Dialogue.SetActive(true);
         await Task.Delay(4000);
@@ -28,14 +32,14 @@ public class WakeUpEffect : MonoBehaviour
 
     IEnumerator BlinkEffect()
     {
-        for (int i = 0; i < 3; i++) // กระพริบ 3 ครั้ง
+        for (int i = 0; i < 3; i++) 
         {
-            yield return Fade(1f, 0.1f); // ปิดตาเร็ว
-            yield return Fade(0f, 0.2f); // ลืมตาช้า
+            yield return Fade(1f, 0.1f); 
+            yield return Fade(0f, 0.2f); 
         }
 
-        yield return Fade(0f, 2f); // ลืมตาถาวร
-        wakeUpImage.gameObject.SetActive(false); // ปิด UI
+        yield return Fade(0f, 2f); 
+        wakeUpImage.gameObject.SetActive(false); 
       
     }
 

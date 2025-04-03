@@ -37,7 +37,7 @@ public class GravitySwitch : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other) // เมื่อผู้เล่นเข้าใกล้
+    private void OnTriggerEnter(Collider other) 
     {
         if (other.CompareTag("Player"))
         {
@@ -47,7 +47,7 @@ public class GravitySwitch : MonoBehaviour
     
     }
 
-    private void OnTriggerExit(Collider other) // เมื่อผู้เล่นเดินออก
+    private void OnTriggerExit(Collider other) 
     {
         if (other.CompareTag("Player"))
         {

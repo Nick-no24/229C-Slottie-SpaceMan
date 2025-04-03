@@ -10,7 +10,7 @@ public class Event2 : MonoBehaviour
     public float shakeIntensity = 0.07f;
 
     public Image fadeImage;
-    public float fadeDuration = 5f; // ระยะเวลาที่ภาพดำค่อย ๆ จางออก
+    public float fadeDuration = 5f; 
 
     private bool hasTriggered = false; 
 
@@ -39,7 +39,7 @@ public class Event2 : MonoBehaviour
             StartCoroutine(FadeIn());
             hasTriggered = true;
             targetObject.SetActive(true);
-           
+            eventAudio.volume = 0.2f;
             Dialogue.SetActive(true);
             eventAudio.PlayOneShot(metalSfx);
 
@@ -86,7 +86,7 @@ public class Event2 : MonoBehaviour
         color.a = 0f;
         yield return new WaitForSeconds(1);
         fadeImage.color = color;
-        fadeImage.gameObject.SetActive(false); // ซ่อน Image เมื่อจบเอฟเฟกต์
+        fadeImage.gameObject.SetActive(false);
     }
 
 }

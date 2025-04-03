@@ -2,7 +2,7 @@
 
 public class WindowGlass : MonoBehaviour
 {
-    public float glassHealth = 10f; // เลือดของกระจก
+    public float glassHealth = 10f;
     public AudioSource eventAudio;
     public AudioClip glassBreaking;
     public AudioClip glasscraking;
@@ -13,15 +13,18 @@ public class WindowGlass : MonoBehaviour
 
         if (glassHealth <= 0)
         {
-            BreakGlass(); 
+            BreakGlass();
         }
-        else { eventAudio.PlayOneShot(glasscraking); }
+        else if (!eventAudio.isPlaying)
+        {
+            eventAudio.PlayOneShot(glasscraking);
+        }
     }
 
     void BreakGlass()
     {
-        
-        Destroy(gameObject); 
+        eventAudio.Stop(); 
         eventAudio.PlayOneShot(glassBreaking);
+        Destroy(gameObject); 
     }
 }

@@ -20,7 +20,7 @@ public class RocketController : MonoBehaviour
 
     public TextMeshProUGUI missileText;
     public TextMeshProUGUI reloadText;
-
+    public TextMeshProUGUI speedText;
     public TextMeshProUGUI hpText;    
     public Image damageOverlay;      
     public float maxHP = 100f;
@@ -31,7 +31,7 @@ public class RocketController : MonoBehaviour
     private float reloadTimer = 0f;
     private bool isReloading = false;
 
-    public GameObject gameOverUI; // UI Game Over
+    public GameObject gameOverUI; 
     public Button restartButton;
     public Button quitButton;
 
@@ -133,6 +133,7 @@ public class RocketController : MonoBehaviour
     void UpdateUI()
     {
         missileText.text = $"Missiles: {missileCount}";
+        speedText.text = $"Speed: {rb.linearVelocity.magnitude:F1} m/s";
         hpText.text = $"HP: {currentHP}/{maxHP}"; 
         if (isReloading)
         {
@@ -181,29 +182,26 @@ public class RocketController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
+        
 
         if (collision.gameObject.CompareTag("Meteor"))
         {
-            Debug.Log("Hit Asteroid! Calling TakeDamage()...");
+            
 
             Rigidbody asteroidRb = collision.gameObject.GetComponent<Rigidbody>();
             if (asteroidRb != null)
             {
-                float playerMomentum = rb.mass * rb.linearVelocity.magnitude;
-                float asteroidMomentum = asteroidRb.mass * asteroidRb.linearVelocity.magnitude;
+                float playerForce = rb.mass * rb.linearVelocity.magnitude;
+                float asteroidForce = asteroidRb.mass * asteroidRb.linearVelocity.magnitude;
 
-                float impactForce = Mathf.Abs(playerMomentum - asteroidMomentum);
-                float damage = impactForce * 0.05f;
+                float impactForce = Mathf.Abs(playerForce - asteroidForce);
+                float damage = impactForce * 0.1f;
 
-                Debug.Log($"Impact Force: {impactForce}, Damage: {damage}");
+               
 
                 TakeDamage(damage);
             }
-            else
-            {
-                Debug.Log("Asteroid has no Rigidbody!");
-            }
+
         }
     }
     void GameOver()

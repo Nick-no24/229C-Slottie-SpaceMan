@@ -1,15 +1,30 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class KeyCard : MonoBehaviour
 {
     private bool playerNearby = false;
-    public static bool hasKey = false; 
+    public static bool hasKey = false;
     public TextMeshProUGUI interactText;
     public AudioSource v;
     public AudioClip warp;
     public AudioClip pickup;
+    public VideoPlayer videoPlayer;  
+   
+    private AsyncOperation sceneLoading;
+
+
+    private void Start()
+    {
+        
+        sceneLoading = SceneManager.LoadSceneAsync("Galaxy");
+        sceneLoading.allowSceneActivation = false;
+
+        
+        
+    }
 
     void Update()
     {
@@ -18,8 +33,8 @@ public class KeyCard : MonoBehaviour
             hasKey = true;
             v.PlayOneShot(pickup);
             interactText.gameObject.SetActive(false);
-            gameObject.SetActive(false);
-            Debug.Log("Ahh I got keycard I can go out of here");
+            GetComponent<Renderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
         }
     }
 
@@ -37,12 +52,21 @@ public class KeyCard : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = false;
-           
         }
     }
 
-    public static void EndStage()
-    {      
-        SceneManager.LoadScene("Galaxy");
+    public void EndStage()
+    {
+        if (hasKey)
+        {
+            Debug.Log("Hyperspace Jump!");
+            
+          
+            v.PlayOneShot(warp);
+            sceneLoading.allowSceneActivation = true;
+            
+        }
     }
+
+    
 }

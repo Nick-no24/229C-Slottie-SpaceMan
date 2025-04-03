@@ -3,9 +3,9 @@ using System.Collections;
 
 public class RandomRotator : MonoBehaviour
 {
-    public float speed = 2f;    // ความเร็วของอุกกาบาต
-    public float rotationSpeed = 30f; // ความเร็วการหมุน
-    public ParticleSystem explosionEffect; // เอฟเฟกต์ระเบิด
+    public float speed = 10f;    
+    public float rotationSpeed = 30f; 
+    public ParticleSystem explosionEffect; 
 
     private void Start()
     {
@@ -14,17 +14,17 @@ public class RandomRotator : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(Vector3.one * rotationSpeed * Time.deltaTime); // หมุนให้อุกกาบาตดูสมจริง
+        transform.Rotate(Vector3.one * rotationSpeed * Time.deltaTime); 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Missile")) // ถ้าถูกมิสไซล์ยิง
+        if (collision.gameObject.CompareTag("Missile"))
         {
             ParticleSystem effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
-            effect.Play(); // เล่นเอฟเฟกต์ระเบิด
-            Destroy(effect.gameObject, effect.main.duration); // ลบ Particle หลังจากเล่นจบ
-            Destroy(gameObject); // ทำลายอุกกาบาต
+            effect.Play(); 
+            Destroy(effect.gameObject, effect.main.duration);
+            Destroy(gameObject);
         }
     }
 }

@@ -15,7 +15,7 @@ public class Event1 : MonoBehaviour
     public GameObject player;
     private Rigidbody rb;
 
-    public Transform playerCamera; // กล้องที่อยู่กับ Player
+    public Transform playerCamera; 
     private bool gravityRestored = false;
     private bool hasExplosion = false;
 
@@ -27,7 +27,7 @@ public class Event1 : MonoBehaviour
     public GameObject playermode2;
     
     public GameObject[] Dialogue;
-
+    public CharacterController characterController;
 
     private void Start()
     {
@@ -47,9 +47,11 @@ public class Event1 : MonoBehaviour
             StartCoroutine(StartEvent());
         }
     }
+    
 
     IEnumerator StartEvent()
     {
+        characterController.enabled = false;
         if (playerCamera != null)
         {
             Quaternion targetRotation = Quaternion.LookRotation(cameraTarget.position - playerCamera.position);
@@ -76,37 +78,39 @@ public class Event1 : MonoBehaviour
                 explosionScript.ApplyExplosionForce();
 
             }
+            Dialogue[1].SetActive(true);
+            
 
             yield return new WaitForSeconds(2f);
             explosionEffect.Stop();
             hasExplosion = true;
+            Vector3 currentPosition = playermode1.transform.position;
+            Quaternion currentRotation = playermode1.transform.rotation;
+
+            Rigidbody rb1 = playermode1.GetComponent<Rigidbody>();
+            Vector3 currentVelocity = rb1 != null ? rb1.linearVelocity : Vector3.zero;
+            Vector3 currentAngularVelocity = rb1 != null ? rb1.angularVelocity : Vector3.zero;
+
+
+            yield return new WaitForSeconds(2f);
+            Dialogue[1].SetActive(false);
+
+
+
+            playermode2.transform.position = currentPosition;
+            playermode2.transform.rotation = currentRotation;
+            playermode1.SetActive(false);
+            playermode2.SetActive(true);
+
+            Rigidbody rb2 = playermode2.GetComponent<Rigidbody>();
+            if (rb2 != null)
+            {
+                rb2.linearVelocity = currentVelocity;
+                rb2.angularVelocity = currentAngularVelocity;
+            }
         }
-        // เก็บค่าตำแหน่งและความเร็วของตัวละครก่อนเปลี่ยนโหมด
-        Vector3 currentPosition = playermode1.transform.position;
-        Quaternion currentRotation = playermode1.transform.rotation;
 
-        Rigidbody rb1 = playermode1.GetComponent<Rigidbody>();
-        Vector3 currentVelocity = rb1 != null ? rb1.linearVelocity : Vector3.zero;
-        Vector3 currentAngularVelocity = rb1 != null ? rb1.angularVelocity : Vector3.zero;
-
-        Dialogue[1].SetActive(true);
-        yield return new WaitForSeconds(2f);
-        Dialogue[1].SetActive(false);
-
-        playermode1.SetActive(false);
-        playermode2.SetActive(true);
-
-        
-        playermode2.transform.position = currentPosition;
-        playermode2.transform.rotation = currentRotation;
-
-
-        Rigidbody rb2 = playermode2.GetComponent<Rigidbody>();
-        if (rb2 != null)
-        {
-            rb2.linearVelocity = currentVelocity;
-            rb2.angularVelocity = currentAngularVelocity;
-        }
+       
     }
 
   
@@ -121,15 +125,17 @@ public class Event1 : MonoBehaviour
         Vector3 currentVelocity = rb2 != null ? rb2.linearVelocity : Vector3.zero;
         Vector3 currentAngularVelocity = rb2 != null ? rb2.angularVelocity : Vector3.zero;
 
-        
+
+
+        playermode1.transform.position = currentPosition;
+        playermode1.transform.rotation = Quaternion.identity;
+
         playermode2.SetActive(false);
+        characterController.enabled = true;
         playermode1.SetActive(true);
         Destroy(playermode2);
 
         
-        playermode1.transform.position = currentPosition;
-        playermode1.transform.rotation = Quaternion.identity;  
-
         
         Rigidbody rb1 = playermode1.GetComponent<Rigidbody>();
         if (rb1 != null)
